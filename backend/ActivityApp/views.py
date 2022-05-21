@@ -74,8 +74,9 @@ def employeeApi(request, id=0):
 
 
 @csrf_exempt
-def SaveFile(request):
-    file = request.FILES['uploadedFile']
+def SaveFile(self, request, *args, **kwargs):
+    file =request.FILES['uploadedFile']
     file_name = default_storage.save(file.name, file)
-
+    file = default_storage.open(file_name)
+    file_url = default_storage.url(file_name)
     return JsonResponse(file_name, safe=False)
